@@ -1,0 +1,14 @@
+.chat_butt {
+  width: 10%;
+  height: 10%;
+  bottom: 25px;
+  right: 0;
+  position: fixed;
+  outline: none;
+}
+
+.bot {
+  /* visibility: visible;
+  float: right; */
+  margin-top: 2rem;
+}
