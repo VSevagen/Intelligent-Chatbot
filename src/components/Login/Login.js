@@ -21,8 +21,7 @@ function Login() {
     let {data: Users, error } = await supabase
       .from('Users')
       .select("*")
-      .match({Email:  username, Password: pass})
-    console.log(Users, error);
+      .match({ username, Password: pass})
     if(Users.length === 1) {
       history.push({
         pathname: "/chatbot",

@@ -5,6 +5,7 @@ import supabase from "../API/Supabase";
 const Item = styled.li`
   text-align: left;
   font-size: 0.9rem;
+  list-style: none!important;
 `;
 
 const Link = styled.a`
@@ -25,6 +26,7 @@ const Link = styled.a`
 
 const Container = styled.ul`
   padding: 0;
+  list-style: none;
 `;
 
 function Lists(props) {

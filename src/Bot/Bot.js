@@ -27,7 +27,7 @@ function Bot(props) {
     botName: "AmBot",
     initialMessages: [
       createChatBotMessage(
-        "Hi " + username.state.name + ", Welcome to AmFOSS !",
+        "Hi " + username.state.name + ", Welcome to amFOSS !",
         {
           widget: "EntryWidget",
         }

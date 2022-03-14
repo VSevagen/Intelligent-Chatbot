@@ -4,13 +4,13 @@ import './admin.css';
 import {adminContext} from '../../contexts/admin-context';
 
 const AdminPrompt = (props) => {
-    const [email, setEmail] = useState();
+    const [username, setUsername] = useState();
     const [password, setPassword] = useState();
     const [error, setError] = useState(null);
     const value = useContext(adminContext);
 
     const handleEmail = (e) => {
-        setEmail(e.target.value);
+        setUsername(e.target.value);
     }
 
     const handlePassword = (e) => {
@@ -19,13 +19,11 @@ const AdminPrompt = (props) => {
 
     async function handleSubmit() {
         setError(null);
-        let user_test = await supabase.auth.user();
-        console.log(user_test);
-        let { user, error } = await supabase.auth.signIn({
-            email: email,
-            password: password,
-        })
-        if(user) {
+        let {data: Users, error } = await supabase
+            .from('Users')
+            .select("*")
+            .match({ username, Password: password });
+        if(Users.length === 1) {
             value.setShowAdmin(true);
         }
         if(error) {
@@ -36,7 +34,7 @@ const AdminPrompt = (props) => {
     return (
         <div id="feedback-form">
         <div>
-            <input type="text" name="email" placeholder="Email" value={email} onChange={handleEmail}></input>
+            <input type="text" name="username" placeholder="Username" value={username} onChange={handleEmail}></input>
             <input type="password" name="password" placeholder="Password" value={password} onChange={handlePassword}></input>
             {error && <p className="error">{error.message}</p>}
             <button onClick={handleSubmit}>Submit</button>
