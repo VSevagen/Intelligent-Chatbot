@@ -19,8 +19,7 @@ function BotWrapper() {
     <adminContext.Provider value={value}>
       <div style={{display: "flex", flexDirection: "row", flexWrap: "no-wrap", justifyContent: "space-around", alignItems: "center"}}>
             <React.Fragment>
-              <Admin show={showAdmin} setShow={setShowAdmin}>
-              </Admin>
+              <Admin show={showAdmin} setShow={setShowAdmin} />
               {showBot &&
                 <div className="bot">
                   <Bot setShow={setShowAdmin}/>
