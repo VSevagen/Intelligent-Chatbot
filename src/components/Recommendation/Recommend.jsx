@@ -33,6 +33,7 @@ const Link = styled.a`
 
 const TaskContainer = styled.ul`
   padding: 0;
+  list-style-type: none;
 `;
 
 function Recommend(props) {
@@ -59,13 +60,15 @@ function Recommend(props) {
     <Container type={props.type}>
       <div>{reply()}</div>
       <TaskContainer>
-        {props.tasks.map((data) => (
-          <Item key={data}>
-            <Link href={data.url} target="_blank" rel="noopener noreferrer">
-              {data}
-            </Link>
-          </Item>
-        ))}
+        {props.tasks.map((task) => {
+          const data = JSON.parse(task);
+          return (
+            <Item key={data}>
+              <Link href={data.url} target="_blank" rel="noopener noreferrer">
+                {data.content}
+              </Link>
+            </Item>
+          )})}
         {props.action.scrollIntoView()}
       </TaskContainer>
     </Container>
