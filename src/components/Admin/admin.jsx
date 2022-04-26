@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import styled from '@emotion/styled';
 import supabase from '../API/Supabase';
 import '../Admin/styles.css';
@@ -16,6 +16,8 @@ const Admin = (props) => {
     const [questions, setQuestions] = useState([]);
     const [answers, setAnswers] = useState([]);
     const [options, setOptions] = useState([]);
+    const [task, setTask] = useState(0);
+    const [tasks, setTasks] = useState([]);
 
     const data = async () => {
         const arr = [];
@@ -34,7 +36,7 @@ const Admin = (props) => {
         let {data: Quiz, error} = await supabase
             .from('Quiz')
             .insert([
-                {Questions: arr_questions, Options: arr, Answers: arr_answers}
+                {Questions: arr_questions, Options: arr, Answers: arr_answers, task_id: task}
             ]);
         if(error) console.log("Error ", error);
     };
@@ -43,6 +45,19 @@ const Admin = (props) => {
         e.preventDefault();
         data()
     }
+
+    const getData = async () => {
+        let { data: Tasks, error } = await supabase
+          .from("Tasks")
+          .select("Tasks");
+        if (error) console.log("Error", error);
+        setTasks(Tasks[0].Tasks);
+    };
+
+    useEffect(() => {
+        getData();
+         // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, []);
 
     return(
         <React.Fragment>
@@ -57,6 +72,16 @@ const Admin = (props) => {
                         <label for="field1"><span>Questions <span className="required">*</span></span><textarea name="field1" className="textarea-field" value={questions} onChange={(e) => setQuestions(e.target.value)}></textarea></label>
                         <label for="field5"><span>Options <span className="required">*</span></span><textarea name="field3" className="textarea-field" value={options} onChange={(e) => setOptions(e.target.value)}></textarea></label>
                         <label for="field5"><span>Answers <span className="required">*</span></span><textarea name="field5" className="textarea-field" value={answers} onChange={(e) => setAnswers(e.target.value)}></textarea></label>
+                        <label for="field6"><span>Task <span className="required">*</span></span>
+                            <select className="select-field" onChange={e => setTask(e.target.value)}>
+                                <option value="0">Select</option>
+                                {tasks.map((task, index) => {
+                                    const data = JSON.parse(task);
+                                    const content = data.content.split(':')[1];
+                                    return <option value={index + 1}>{content}</option>
+                                })}
+                            </select>
+                        </label>
                         <button className="submit" onClick={handleSubmit}>Submit</button>
                         </form>
                     </div>
