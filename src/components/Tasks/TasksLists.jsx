@@ -18,8 +18,17 @@ const Link = styled.a`
   box-shadow: 2px 2px 4px rgba(150, 149, 149, 0.4);
 `;
 
+const TagHeading = styled.p`
+  text-align: left;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  font-weight: 900;
+  padding-left: 0.5rem;
+`;
+
 const Container = styled.ul`
   padding: 0;
+  list-style-type: none;
 `;
 
 function TasksLists(props) {
@@ -31,7 +40,7 @@ function TasksLists(props) {
       .select("Tasks")
       .eq("Name", props.user);
     if (error) console.log("Error", error);
-    setTasks(Tasks);
+    setTasks(Tasks[0].Tasks);
     setReady(true);
   };
 
@@ -40,16 +49,30 @@ function TasksLists(props) {
      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const tags = ['Problem solving', 'Web', 'Terminal', 'Misc'];
+
   return (
     <Container>
-      {isready &&
-        tasks[0].Tasks.map((data) => (
-          <Item key={data}>
-            <Link href={data.url} target="_blank" rel="noopener noreferrer">
-              {data}
-            </Link>
-          </Item>
-        ))}
+      {isready ?
+        tags.map((tag) => (
+          <>
+            <TagHeading key={tag}>{tag}</TagHeading>
+            {tasks.map((task) => {
+              const data = JSON.parse(task);
+              if (data.tag === tag) {
+                return (
+                  <Item key={data.content}>
+                    <Link href={data.url} target="_blank" rel="noopener noreferrer">
+                      {data.content}
+                    </Link>
+                  </Item>
+                )
+              }
+            })}
+          </>
+        )): (
+          <Item>Loading your tasks...</Item>
+        )}
     </Container>
   );
 }

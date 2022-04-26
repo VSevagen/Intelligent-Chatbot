@@ -80,16 +80,19 @@ function TasksStatus(props) {
   return (
     <div>
       {isready &&
-        userdata[0].Tasks.map((data, i) => (
-          <div>
-            <Container>
-              <TaskText>{data}</TaskText>
-              <StatusTag color={userdata[0].status[i]}>
-                {userdata[0].status[i]}
-              </StatusTag>
-            </Container>
-          </div>
-        ))}
+        userdata[0].Tasks.map((task, i) => {
+          const data = JSON.parse(task);
+          return (
+            <div>
+              <Container>
+                <TaskText>{data.content}</TaskText>
+                <StatusTag color={userdata[0].status[i]}>
+                  {userdata[0].status[i]}
+                </StatusTag>
+              </Container>
+            </div>
+          )
+      })}
       {isready && (
         <UpdateContainer>
           <UpdateButton onClick={handleClick}>Update a task</UpdateButton>
