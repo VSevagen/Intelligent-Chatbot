@@ -3,8 +3,8 @@ import supabase from "../API/Supabase";
 import styled from "@emotion/styled";
 
 const Container = styled.div`
-  background-color: #2898ec;
-  color: #fff;
+  background-color: #efefef;
+  color: #000;
   padding: 10px;
   border-radius: 5px;
   margin: 3px 0px;
@@ -19,16 +19,20 @@ const Title = styled.div`
 const Desc = styled.div`
   background-color: #f1f1f1;
   color: #5f5f5f;
-  padding: 0.5rem;
+  padding: 0.5 0rem;
   border-radius: 10px;
   margin-bottom: 0.5rem;
 `;
 
-const Link = styled.div`
-  background-color: #f1f1f1;
-  padding: 0.5rem;
-  border-radius: 10px;
-  margin-bottom: 0.5rem;
+const List = styled.ul`
+  margin-top: 1rem;
+  padding-left: 1rem;
+  list-style-type: decimal;
+`;
+
+const ListItem = styled.li`
+  margin: 0;
+  padding: 0.2rem 0;
 `;
 
 function Describe(props) {
@@ -52,15 +56,23 @@ function Describe(props) {
 
   return (
     <Container>
-      <Title>{isready && Data.Tasks}</Title>
-      <Desc>{isready && Data.description}</Desc>
-      Visit the following links for more details<br></br>
-      {isready &&
-        Data.urls.map((url) => (
-          <Link>
-            <a href={url}>{url}</a>
-          </Link>
-        ))}
+      {isready ? (
+        <>
+          <Title>{isready && Data.Tasks}</Title>
+          <Desc>{isready && Data.description}</Desc>
+            Visit the following links for more details<br></br>
+          <List>
+            {isready &&
+              Data.urls.map((url) => (
+                <ListItem>
+                  <a href={url}>{url}</a>
+                </ListItem>
+              ))}
+          </List>
+        </>
+      ): (
+        <Desc>Loading your task...</Desc>
+      )}
     </Container>
   );
 }
