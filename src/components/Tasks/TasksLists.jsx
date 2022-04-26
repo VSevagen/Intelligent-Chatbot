@@ -7,6 +7,14 @@ const Item = styled.li`
   font-size: 0.9rem;
 `;
 
+const TaskItem = styled.div`
+  text-align: left;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  padding-bottom: 0.5rem;
+  color: #2898ec;
+`;
+
 const Link = styled.a`
   text-decoration: none;
   margin: 6px;
@@ -37,10 +45,10 @@ function TasksLists(props) {
   const data = async () => {
     let { data: Tasks, error } = await supabase
       .from("Tasks")
-      .select("Tasks")
+      .select("Tasks, Category")
       .eq("Name", props.user);
     if (error) console.log("Error", error);
-    setTasks(Tasks[0].Tasks);
+    setTasks(Tasks[0]);
     setReady(true);
   };
 
@@ -57,13 +65,15 @@ function TasksLists(props) {
         tags.map((tag) => (
           <>
             <TagHeading key={tag}>{tag}</TagHeading>
-            {tasks.map((task) => {
+            {tasks.Tasks.map((task, i) => {
               const data = JSON.parse(task);
+              const taskContent = data.content.split(':');
               if (data.tag === tag) {
                 return (
                   <Item key={data.content}>
                     <Link href={data.url} target="_blank" rel="noopener noreferrer">
-                      {data.content}
+                      <TaskItem>{taskContent[0]} ({tasks.Category[i]})</TaskItem>
+                      {taskContent[1]}
                     </Link>
                   </Item>
                 )
