@@ -3,8 +3,8 @@ import supabase from "../API/Supabase";
 import styled from "@emotion/styled";
 
 const Container = styled.div`
-  background-color: #2898ec;
-  color: #fff;
+  background-color: #efefef;
+  color: #000;
   padding: 10px;
   border-radius: 5px;
   margin: 3px 0px;
@@ -77,6 +77,19 @@ function TasksStatus(props) {
     console.log(props);
   };
 
+  const getStatus = (status) => {
+    switch(status) {
+      case "Not-started":
+        return "Not Started";
+      case "In-progress":
+        return "In Progress";
+      case "completed":
+        return "Completed";
+      default:
+        return "Not Started";
+    }
+  }
+
   return (
     <div>
       {isready &&
@@ -87,7 +100,7 @@ function TasksStatus(props) {
               <Container>
                 <TaskText>{data.content}</TaskText>
                 <StatusTag color={userdata[0].status[i]}>
-                  {userdata[0].status[i]}
+                  {getStatus(userdata[0].status[i])}
                 </StatusTag>
               </Container>
             </div>
