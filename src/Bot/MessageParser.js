@@ -17,7 +17,8 @@ class MessageParser {
     } else if (
       lowerCaseMessage.includes("describe") ||
       lowerCaseMessage.includes("explain") ||
-      lowerCaseMessage.includes("explanaition")
+      lowerCaseMessage.includes("explanaition") ||
+      lowerCaseMessage.includes("explanation")
     ) {
       // this is a regular expression used to check whether there is a number in string
       if (/\d/.test(lowerCaseMessage)) {
